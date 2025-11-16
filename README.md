@@ -1,142 +1,176 @@
 🚀 Task Manager Application
 
-This is a modern, full-stack Task Manager designed for high performance and real-time user interaction. It allows users to organize tasks within projects and reorder tasks using a drag-and-drop interface, leveraging a dynamic front-end powered by React and Inertia.
+A modern, full-stack Task Manager built for speed, simplicity, and real-time interaction. Users can manage projects and tasks, reorder items with drag-and-drop, and enjoy a smooth SPA-like experience powered by React + Inertia, all running inside a clean Docker development environment.
 
 🛠️ Technology Stack
+Component Technology Purpose
+Backend Laravel (v12.37) API, routing, migrations, Eloquent ORM
+Frontend Framework React Component-based modern UI
+Styling Tailwind CSS Utility-first CSS framework
+Adapter Inertia.js Connects Laravel backend with React SPA frontend
+Authentication Laravel Breeze Login/Register scaffolding
+Dev Environment Docker + Laravel Sail PHP, Nginx, MySQL, Redis containers
+Task Reordering SortableJS Drag-and-drop functionality
+⚙️ Project Setup (Recommended): Docker Desktop + Laravel Sail
 
-This project uses a robust, modern stack packaged neatly with Docker for easy development:
+This is the easiest, most consistent setup on Windows, macOS, and Linux.
+Docker Desktop will handle PHP, MySQL, Nginx, Redis, Node, and everything else for you.
 
-Component
+✅ Prerequisites
 
-Technology
+You must have the following installed:
 
-Description
-
-Backend
-
-Laravel (v12.37)
-
-Provides the core API, routing, database migration, and Eloquent ORM.
-
-Frontend Framework
-
-React
-
-Used for building the dynamic, component-based user interface.
-
-Styling
-
-Tailwind CSS
-
-A utility-first CSS framework for rapid and responsive UI development.
-
-Adapter
-
-Inertia.js
-
-The "modern monolith" adapter that connects the Laravel backend with the React frontend seamlessly.
-
-Authentication
-
-Laravel Breeze
-
-Scaffolding used for a quick and secure authentication setup (Login, Register).
-
-Development Environment
-
-Laravel Sail & Docker
-
-Provides a light-weight, ready-to-use Docker environment, including PHP, Nginx, MySQL, and Redis.
-
-Task Management
-
-SortableJS
-
-Used for the drag-and-drop task reordering functionality on the front end.
-
-⚙️ Project Setup and Installation
-
-Since this project uses Laravel Sail, setup is extremely fast and consistent across all operating systems.
-
-Prerequisites
-
-You must have the following software installed on your machine:
-
-Docker and Docker Compose
+Docker Desktop
 
 Git
 
-Step 1: Clone the Repository
+✔ No need to install PHP, Composer, Node.js, or MySQL — Sail provides all of them.
 
-Clone the project from GitHub and navigate into the project directory:
-
-git clone [https://github.com/yasinkhan561/task-manager.git](https://github.com/yasinkhan561/task-manager.git)
+📌 Step 1: Clone the Repository
+git clone https://github.com/yasinkhan561/task-manager.git
 cd task-manager
 
-Step 2: Configure the Environment
-
-Create a copy of the default environment file and generate the application key:
-
+📌 Step 2: Create Environment File + App Key
 cp .env.example .env
+
+Generate the Laravel app key using a temporary PHP container:
+
 docker run --rm \
  -v "$(pwd):/var/www/html" \
  -w /var/www/html php:8.3-cli \
  php artisan key:generate
 
-Step 3: Start the Sail Environment
-
-Use the Sail command to build and start all necessary Docker containers (PHP, MySQL, Nginx, etc.). This may take several minutes the first time.
-
+📌 Step 3: Start Docker Containers (Laravel Sail)
 ./vendor/bin/sail up -d
 
-Note: If you are on Windows, you will need to use vendor\bin\sail up -d. You can also create a bash alias for ./vendor/bin/sail as simply sail.
+Windows PowerShell (if needed):
 
-Step 4: Install Dependencies
+vendor\bin\sail up -d
 
-Once the containers are running, execute Composer (for PHP) and NPM (for JavaScript) dependency installation inside the running Docker environment:
+💡 Tip: Create a Sail alias so you can type sail instead of ./vendor/bin/sail.
 
-# Install PHP dependencies (Composer)
+📌 Step 4: Install PHP & JS Dependencies
+
+# Install Composer dependencies
 
 ./vendor/bin/sail composer install
 
-# Install Node.js dependencies (NPM)
+# Install Node dependencies
 
 ./vendor/bin/sail npm install
 
-Step 5: Database Migration and Seeding
-
-Run the migrations to create the necessary database tables (like users, projects, and tasks):
-
+📌 Step 5: Migrate and Seed the Database
 ./vendor/bin/sail artisan migrate --seed
 
-The --seed flag will populate the database with dummy data for initial testing.
+This will also load dummy data for testing.
 
-Step 6: Build Frontend Assets
+📌 Step 6: Build Frontend Assets
 
-The React/Inertia/Tailwind assets need to be compiled. Use the development server for real-time changes or build the production assets:
-
-# To run the development asset watcher (recommended for active development)
+Development mode (recommended):
 
 ./vendor/bin/sail npm run dev
 
-# To build production-ready, minified assets
+Production build:
 
-# ./vendor/bin/sail npm run build
+./vendor/bin/sail npm run build
 
-Step 7: Access the Application
+📌 Step 7: Access the Application
 
-The application should now be fully running and accessible in your web browser:
+Once Sail is running, open:
 
-http://localhost
+👉 http://localhost
 
-You can now register a new user using the /register route or log in with the seeded credentials if available.
+Your Task Manager should now be fully operational.
 
-💻 Frontend Implementation Details
+🐳 Docker Desktop Setup — Additional Notes
+▶ Ensure Docker Desktop is running
 
-The frontend logic is managed entirely by React components integrated via Inertia.js.
+On Windows/macOS, Docker Desktop must be open before running Sail.
 
-Views: All main views (e.g., resources/js/Pages/Tasks/Index.tsx) are React components.
+▶ WSL2 requirements (Windows only)
 
-Styling: All styling is handled via Tailwind CSS utility classes applied directly to the JSX elements.
+Windows 10/11
 
-Data Flow: Data fetched by the Laravel backend (e.g., projects and tasks) is passed as Inertia Props directly to the React components. State changes (like task creation or reordering) are handled via Inertia form helpers, making the flow feel like a traditional MVC application while delivering a single-page application experience.
+WSL2 enabled
+
+Docker Desktop → Settings → Enable WSL Integration
+
+🛠️ Troubleshooting (Common Issues)
+❌ “This page isn’t working — ERR_EMPTY_RESPONSE”
+
+Likely the containers failed to start.
+
+Run:
+
+./vendor/bin/sail ps
+docker ps
+
+If laravel.test is not running → restart Sail:
+
+./vendor/bin/sail down -v
+./vendor/bin/sail up -d
+
+❌ Port 80 in use
+
+Nginx needs port 80.
+
+Find what is using it:
+
+sudo lsof -i :80
+
+Kill conflicting process.
+
+❌ Node / Vite errors
+
+Restart assets:
+
+./vendor/bin/sail npm run dev
+
+❌ MySQL connection issues
+
+Check DB container logs:
+
+./vendor/bin/sail logs mysql
+
+🖥️ Alternative Setup (Without Docker)
+
+If you prefer to run PHP, MySQL, and Node locally:
+
+Prerequisites
+
+PHP 8.3+
+
+Composer
+
+MySQL
+
+Node.js & NPM
+
+Steps
+git clone https://github.com/yasinkhan561/task-manager.git
+cd task-manager
+cp .env.example .env
+
+composer install
+npm install
+php artisan key:generate
+php artisan migrate --seed
+
+npm run dev
+php artisan serve
+
+Access at:
+
+👉 http://127.0.0.1:8000
+
+💻 Frontend Architecture
+
+React components inside resources/js/Pages
+
+Inertia.js used for client-side navigation with server-side data
+
+Tailwind CSS for styling
+
+SortableJS for task drag-and-drop
+
+Laravel controllers return Inertia responses with props injected into React
