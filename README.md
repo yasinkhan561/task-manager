@@ -1,17 +1,26 @@
-🚀 Task Manager Application
+## 🚀 Task Manager Application
 
 A modern, full-stack Task Manager built for speed, simplicity, and real-time interaction. Users can manage projects and tasks, reorder items with drag-and-drop, and enjoy a smooth SPA-like experience powered by React + Inertia, all running inside a clean Docker development environment.
 
-🛠️ Technology Stack
+# 🛠️ Technology Stack :
+
 Component Technology Purpose
+
 Backend Laravel (v12.37) API, routing, migrations, Eloquent ORM
+
 Frontend Framework React Component-based modern UI
+
 Styling Tailwind CSS Utility-first CSS framework
+
 Adapter Inertia.js Connects Laravel backend with React SPA frontend
+
 Authentication Laravel Breeze Login/Register scaffolding
+
 Dev Environment Docker + Laravel Sail PHP, Nginx, MySQL, Redis containers
+
 Task Reordering SortableJS Drag-and-drop functionality
-⚙️ Project Setup (Recommended): Docker Desktop + Laravel Sail
+
+# ⚙️ Project Setup (Recommended): Docker Desktop + Laravel Sail
 
 This is the easiest, most consistent setup on Windows, macOS, and Linux.
 Docker Desktop will handle PHP, MySQL, Nginx, Redis, Node, and everything else for you.
@@ -132,7 +141,7 @@ Check DB container logs:
 
 ./vendor/bin/sail logs mysql
 
-🖥️ Alternative Setup (Without Docker)
+# 🖥️ Alternative Setup (Without Docker)
 
 If you prefer to run PHP, MySQL, and Node locally:
 
@@ -147,6 +156,7 @@ MySQL
 Node.js & NPM
 
 Steps
+
 git clone https://github.com/yasinkhan561/task-manager.git
 cd task-manager
 cp .env.example .env
@@ -163,7 +173,7 @@ Access at:
 
 👉 http://127.0.0.1:8000
 
-💻 Frontend Architecture
+# 💻 Frontend Architecture
 
 React components inside resources/js/Pages
 
